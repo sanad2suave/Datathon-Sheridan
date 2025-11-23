@@ -235,11 +235,11 @@ Built for hackathon purposes. All rights reserved.
 ## Team
 
 Built in 24 hours by:
-Alexander Williamson
-Sanad Mustafa
-Shayan Khattak
-Alexander Spreer-Pimenta
-Jahangir Khan
+Alexander Williamson  
+Sanad Mustafa  
+Shayan Khattak  
+Alexander Spreer-Pimenta  
+Jahangir Khan  
 
 ---
 
