@@ -164,6 +164,20 @@ export default function HelpScreen() {
           </View>
         </View>
 
+        {/* Survival Kit Use Section */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <ThemedText style={styles.sectionTitle}>Survival Kit Use</ThemedText>
+          </View>
+          
+          <View style={styles.featureCard}>
+            <ThemedText style={styles.featureTitle}>What it does:</ThemedText>
+            <ThemedText style={styles.featureText}>
+              The Survival Kit page provides essential emergency instructions and safety guidance when you are in danger. It includes critical survival information, step-by-step emergency procedures, and actionable safety advice that you can access quickly during crisis situations. The survival kit is designed to help you make informed decisions and take appropriate actions when facing threats or dangerous circumstances.
+            </ThemedText>
+          </View>
+        </View>
+
         {/* Tips Section */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
