@@ -28,7 +28,6 @@ export default function HelpScreen() {
         {/* Map Feature Section */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <ThemedText style={styles.sectionIcon}></ThemedText>
             <ThemedText style={styles.sectionTitle}>Threat Map</ThemedText>
           </View>
           
@@ -97,7 +96,6 @@ export default function HelpScreen() {
         {/* Safety Assistant Feature Section */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <ThemedText style={styles.sectionIcon}></ThemedText>
             <ThemedText style={styles.sectionTitle}>Safety Assistant</ThemedText>
           </View>
           
@@ -169,7 +167,6 @@ export default function HelpScreen() {
         {/* Tips Section */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <ThemedText style={styles.sectionIcon}></ThemedText>
             <ThemedText style={styles.sectionTitle}>Tips & Best Practices</ThemedText>
           </View>
           
