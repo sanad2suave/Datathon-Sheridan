@@ -10,7 +10,7 @@ import { Link } from 'expo-router';
 export default function HomeScreen() {
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerBackgroundColor={{ light: '#1E3A5F', dark: '#0F1F2E' }}
       headerImage={
         <Image
           source={require('@/assets/images/partial-react-logo.png')}
@@ -18,60 +18,55 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+        <ThemedText type="title">CIVshield App</ThemedText>
         <HelloWave />
       </ThemedView>
+      
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
+        <ThemedText type="subtitle">🛡️ Your Security Companion</ThemedText>
         <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
+          Welcome to <ThemedText type="defaultSemiBold">CIVshield</ThemedText>, your trusted mobile application for 
+          security and protection. Stay connected and stay safe.
         </ThemedText>
       </ThemedView>
+
       <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">🔐 Key Features</ThemedText>
+        <ThemedText>
+          • Real-time security monitoring{'\n'}
+          • Emergency response tools{'\n'}
+          • Community safety network{'\n'}
+          • Quick access to help resources
+        </ThemedText>
+      </ThemedView>
+
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">📱 Getting Started</ThemedText>
+        <ThemedText>
+          Explore the app using the tabs below. Navigate through different sections 
+          to discover all the features CIVshield has to offer.
+        </ThemedText>
         <Link href="/modal">
           <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
+            <ThemedText type="subtitle" style={styles.linkText}>Open Settings</ThemedText>
           </Link.Trigger>
           <Link.Preview />
           <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
+            <Link.MenuAction title="Settings" icon="cube" onPress={() => alert('Settings opened')} />
             <Link.MenuAction
-              title="Share"
+              title="Share App"
               icon="square.and.arrow.up"
               onPress={() => alert('Share pressed')}
             />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
           </Link.Menu>
         </Link>
-
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
       </ThemedView>
+
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
+        <ThemedText type="subtitle">⚡ Quick Actions</ThemedText>
         <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
+          Access important features quickly from the Explore tab. Stay informed and 
+          connected with your community.
         </ThemedText>
       </ThemedView>
     </ParallaxScrollView>
@@ -83,10 +78,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+    marginBottom: 16,
   },
   stepContainer: {
     gap: 8,
-    marginBottom: 8,
+    marginBottom: 24,
   },
   reactLogo: {
     height: 178,
@@ -94,5 +90,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: 'absolute',
+  },
+  linkText: {
+    marginTop: 8,
   },
 });
