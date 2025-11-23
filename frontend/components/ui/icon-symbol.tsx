@@ -20,6 +20,7 @@ const MAPPING = {
   'chevron.right': 'chevron-right',
   'map.fill': 'map',
   'message.fill': 'chat',
+  'book.fill': 'menu-book',
 } as IconMapping;
 
 /**
