@@ -1,28 +1,53 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useLocalSearchParams } from 'expo-router';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useThemeColor } from '@/hooks/use-theme-color';
-import { getAdvice, Message } from '@/services/api';
+import { getAdvice, Message, Threat } from '@/services/api';
 
 export default function GeminiChatScreen() {
   const [inputText, setInputText] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [attachedThreat, setAttachedThreat] = useState<Threat | null>(null);
+
+  const params = useLocalSearchParams();
   const backgroundColor = useThemeColor({}, 'background');
   const colorScheme = useColorScheme();
   const textColor = useThemeColor({}, 'text');
   const isDark = colorScheme === 'dark';
 
+  useEffect(() => {
+    if (params.threat) {
+      try {
+        const threatData = JSON.parse(params.threat as string);
+        setAttachedThreat(threatData);
+      } catch (e) {
+        console.error('Error parsing threat data:', e);
+      }
+    }
+  }, [params.threat]);
+
   const handleSend = async () => {
     if (inputText.trim()) {
-      const messageToSend = inputText.trim();
+      let messageToSend = inputText.trim();
+
+      if (attachedThreat) {
+        messageToSend += `\n\n[Attached Threat Context]\nType: ${attachedThreat.type}\nLevel: ${attachedThreat.threatLevel}\nLocation: ${attachedThreat.lat}, ${attachedThreat.lng}\nTimestamp: ${attachedThreat.timestamp}`;
+      }
+
       setInputText(''); // Clear input immediately
+      setAttachedThreat(null); // Clear attached threat after sending
 
       // Add user message to conversation
+      // Display the original input text to the user, but send the context-enhanced message to the API? 
+      // Or just show the context in the chat? The requirement says "includes the threat in whatever message they send".
+      // I'll append it to the message content for simplicity and clarity in the chat history.
       const userMessage: Message = { role: 'user', content: messageToSend };
       setMessages(prev => [...prev, userMessage]);
 
@@ -47,93 +72,107 @@ export default function GeminiChatScreen() {
   const handleNewConversation = () => {
     setMessages([]);
     setError(null);
+    setAttachedThreat(null);
   };
 
   return (
-    <KeyboardAvoidingView
-      style={[styles.container, { backgroundColor }]}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}>
+    <SafeAreaView style={[styles.container, { backgroundColor }]}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}>
 
-      <ThemedView style={styles.header}>
-        <ThemedText style={styles.headerTitle}>Safety Assistant</ThemedText>
-        {messages.length > 0 && (
-          <TouchableOpacity onPress={handleNewConversation} style={styles.newChatButton}>
-            <ThemedText style={styles.newChatButtonText}>+ New Chat</ThemedText>
-          </TouchableOpacity>
-        )}
-      </ThemedView>
+        <ThemedView style={styles.header}>
+          <ThemedText style={styles.headerTitle}>Safety Assistant</ThemedText>
+          {messages.length > 0 && (
+            <TouchableOpacity onPress={handleNewConversation} style={styles.newChatButton}>
+              <ThemedText style={styles.newChatButtonText}>+ New Chat</ThemedText>
+            </TouchableOpacity>
+          )}
+        </ThemedView>
 
-      <ThemedView style={styles.content}>
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}>
+        <ThemedView style={styles.content}>
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={styles.scrollContent}>
 
-          {messages.map((msg, index) => (
-            <View
-              key={index}
+            {messages.map((msg, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.messageBubble,
+                  msg.role === 'user' ? styles.userBubble : styles.assistantBubble
+                ]}>
+                <ThemedText style={[
+                  styles.messageText,
+                  msg.role === 'user' ? styles.userText : styles.assistantText
+                ]}>
+                  {msg.content}
+                </ThemedText>
+              </View>
+            ))}
+
+            {loading && (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="small" color="#4285F4" />
+                <ThemedText style={styles.loadingText}>Thinking...</ThemedText>
+              </View>
+            )}
+
+            {error && (
+              <View style={[styles.messageBubble, styles.errorBubble]}>
+                <ThemedText style={styles.errorText}>⚠️ {error}</ThemedText>
+              </View>
+            )}
+
+            {messages.length === 0 && !loading && !error && (
+              <View style={styles.emptyState}>
+                <ThemedText style={styles.emptyStateText}>
+                  💬 Ask a safety question or describe a threat situation
+                </ThemedText>
+              </View>
+            )}
+          </ScrollView>
+        </ThemedView>
+
+        <ThemedView style={styles.inputContainer}>
+          {attachedThreat && (
+            <View style={styles.attachedThreatContainer}>
+              <View style={styles.attachedThreatContent}>
+                <ThemedText style={styles.attachedThreatTitle}>Attached Threat: {attachedThreat.type}</ThemedText>
+                <ThemedText style={styles.attachedThreatSubtitle}>Level: {attachedThreat.threatLevel}</ThemedText>
+              </View>
+              <TouchableOpacity onPress={() => setAttachedThreat(null)} style={styles.removeThreatButton}>
+                <ThemedText style={styles.removeThreatText}>✕</ThemedText>
+              </TouchableOpacity>
+            </View>
+          )}
+          <View style={[
+            styles.inputWrapper,
+            isDark ? styles.inputWrapperDark : styles.inputWrapperLight
+          ]}>
+            <TextInput
+              style={[styles.textInput, { color: textColor }]}
+              placeholder="Ask a safety question or describe a threat..."
+              placeholderTextColor={isDark ? '#9BA1A6' : '#687076'}
+              value={inputText}
+              onChangeText={setInputText}
+              multiline
+              maxLength={2000}
+            />
+            <TouchableOpacity
               style={[
-                styles.messageBubble,
-                msg.role === 'user' ? styles.userBubble : styles.assistantBubble
-              ]}>
-              <ThemedText style={[
-                styles.messageText,
-                msg.role === 'user' ? styles.userText : styles.assistantText
-              ]}>
-                {msg.content}
-              </ThemedText>
-            </View>
-          ))}
-
-          {loading && (
-            <View style={styles.loadingContainer}>
-              <ActivityIndicator size="small" color="#4285F4" />
-              <ThemedText style={styles.loadingText}>Thinking...</ThemedText>
-            </View>
-          )}
-
-          {error && (
-            <View style={[styles.messageBubble, styles.errorBubble]}>
-              <ThemedText style={styles.errorText}>⚠️ {error}</ThemedText>
-            </View>
-          )}
-
-          {messages.length === 0 && !loading && !error && (
-            <View style={styles.emptyState}>
-              <ThemedText style={styles.emptyStateText}>
-                💬 Ask a safety question or describe a threat situation
-              </ThemedText>
-            </View>
-          )}
-        </ScrollView>
-      </ThemedView>
-
-      <ThemedView style={styles.inputContainer}>
-        <View style={[
-          styles.inputWrapper,
-          isDark ? styles.inputWrapperDark : styles.inputWrapperLight
-        ]}>
-          <TextInput
-            style={[styles.textInput, { color: textColor }]}
-            placeholder="Ask a safety question or describe a threat..."
-            placeholderTextColor={isDark ? '#9BA1A6' : '#687076'}
-            value={inputText}
-            onChangeText={setInputText}
-            multiline
-            maxLength={2000}
-          />
-          <TouchableOpacity
-            style={[
-              styles.sendButton,
-              inputText.trim() ? styles.sendButtonActive : styles.sendButtonInactive
-            ]}
-            onPress={handleSend}
-            disabled={!inputText.trim()}>
-            <ThemedText style={styles.sendButtonText}>→</ThemedText>
-          </TouchableOpacity>
-        </View>
-      </ThemedView>
-    </KeyboardAvoidingView>
+                styles.sendButton,
+                inputText.trim() ? styles.sendButtonActive : styles.sendButtonInactive
+              ]}
+              onPress={handleSend}
+              disabled={!inputText.trim()}>
+              <ThemedText style={styles.sendButtonText}>→</ThemedText>
+            </TouchableOpacity>
+          </View>
+        </ThemedView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
@@ -283,5 +322,35 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     opacity: 0.5,
+  },
+  attachedThreatContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#E3F2FD',
+    padding: 8,
+    borderRadius: 8,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: '#90CAF9',
+  },
+  attachedThreatContent: {
+    flex: 1,
+  },
+  attachedThreatTitle: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#1565C0',
+  },
+  attachedThreatSubtitle: {
+    fontSize: 10,
+    color: '#1976D2',
+  },
+  removeThreatButton: {
+    padding: 4,
+  },
+  removeThreatText: {
+    fontSize: 14,
+    color: '#1565C0',
+    fontWeight: 'bold',
   },
 });

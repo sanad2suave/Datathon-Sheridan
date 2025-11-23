@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -12,6 +14,7 @@ export default function MapScreen() {
   const [threats, setThreats] = useState<Threat[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -70,6 +73,13 @@ export default function MapScreen() {
     }
   };
 
+  const handleMarkerPress = (threat: Threat) => {
+    router.push({
+      pathname: '/explore',
+      params: { threat: JSON.stringify(threat) }
+    });
+  };
+
   if (loading) {
     return (
       <ThemedView style={styles.container}>
@@ -88,7 +98,7 @@ export default function MapScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
@@ -111,6 +121,7 @@ export default function MapScreen() {
             pinColor={getMarkerColor(threat.threatLevel)}
             title={threat.type}
             description={`Level: ${threat.threatLevel} • ${getTimeAgo(threat.timestamp)}`}
+            onCalloutPress={() => handleMarkerPress(threat)}
           />
         ))}
       </MapView>
@@ -132,7 +143,7 @@ export default function MapScreen() {
           </View>
         </ThemedView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
