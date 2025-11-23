@@ -32,6 +32,7 @@ export default function TabLayout() {
         }}
       />
 
+      {/* Added offline-maps, survival, and help tabs */}
       <Tabs.Screen
         name="offline-maps"
         options={{
@@ -49,6 +50,14 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="cross.case.fill" color={color} />
           ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="help"
+        options={{
+          title: 'Help',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="book.fill" color={color} />,
         }}
       />
     </Tabs>
