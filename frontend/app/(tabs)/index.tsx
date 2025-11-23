@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, ActivityIndicator } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { StyleSheet, View, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -8,34 +8,33 @@ import { useRouter } from 'expo-router';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { getThreats, Threat } from '@/services/api';
+import { saveMapRegion, filterThreatsInBounds } from '@/services/storage/offline-maps';
 
 export default function MapScreen() {
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [threats, setThreats] = useState<Threat[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentRegion, setCurrentRegion] = useState<Region | null>(null);
   const router = useRouter();
 
+
+  // Load initial data
   useEffect(() => {
     (async () => {
       try {
-        // Request location permissions
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
           setError('Location permission denied');
           setLoading(false);
           return;
         }
-
-        // Get current location
-        const currentLocation = await Location.getCurrentPositionAsync({});
-        setLocation(currentLocation);
-
-        // Fetch threats from backend
-        const fetchedThreats = await getThreats();
-        setThreats(fetchedThreats);
-      } catch (err) {
-        console.error('Error loading map data:', err);
+        const loc = await Location.getCurrentPositionAsync({});
+        setLocation(loc);
+        const fetched = await getThreats();
+        setThreats(fetched);
+      } catch (e) {
+        console.error(e);
         setError('Failed to load map data');
       } finally {
         setLoading(false);
@@ -43,43 +42,75 @@ export default function MapScreen() {
     })();
   }, []);
 
-  const getMarkerColor = (threatLevel: string): string => {
-    switch (threatLevel.toLowerCase()) {
+  const getMarkerColor = (level: string): string => {
+    switch (level.toLowerCase()) {
       case 'high':
-        return '#FF0000'; // Red
+        return '#FF0000';
       case 'medium':
-        return '#FFA500'; // Orange
+        return '#FFA500';
       case 'low':
-        return '#FFFF00'; // Yellow
+        return '#FFFF00';
       case 'safe':
-        return '#00FF00'; // Green
+        return '#00FF00';
       default:
-        return '#808080'; // Gray
+        return '#808080';
     }
   };
 
   const getTimeAgo = (timestamp?: string) => {
     if (!timestamp) return '';
     const now = new Date();
-    const threatTime = new Date(timestamp);
-    const diffInMinutes = Math.floor((now.getTime() - threatTime.getTime()) / 60000);
-
-    if (diffInMinutes < 60) {
-      return `${diffInMinutes} mins ago`;
-    } else if (diffInMinutes < 1440) {
-      const hours = Math.floor(diffInMinutes / 60);
-      return `${hours} hours ago`;
-    } else {
-      const days = Math.floor(diffInMinutes / 1440);
-      return `${days} days ago`;
-    }
+    const t = new Date(timestamp);
+    const diff = Math.floor((now.getTime() - t.getTime()) / 60000);
+    if (diff < 60) return `${diff} mins ago`;
+    if (diff < 1440) return `${Math.floor(diff / 60)} hours ago`;
+    return `${Math.floor(diff / 1440)} days ago`;
   };
 
   const handleMarkerPress = (threat: Threat) => {
-    router.push({
-      pathname: '/explore',
-      params: { threat: JSON.stringify(threat) }
-    });
+    router.push({ pathname: '/explore', params: { threat: JSON.stringify(threat) } });
+  };
+
+  const downloadCurrentArea = async () => {
+    if (!currentRegion) {
+      Alert.alert('Error', 'Unable to determine current map region');
+      return;
+    }
+    const bounds = {
+      north: currentRegion.latitude + currentRegion.latitudeDelta / 2,
+      south: currentRegion.latitude - currentRegion.latitudeDelta / 2,
+      east: currentRegion.longitude + currentRegion.longitudeDelta / 2,
+      west: currentRegion.longitude - currentRegion.longitudeDelta / 2,
+    };
+    const threatsInBounds = filterThreatsInBounds(threats, bounds);
+    Alert.alert(
+      'Download Map Area',
+      `This will save ${threatsInBounds.length} threats for offline use.`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Download',
+          onPress: async () => {
+            try {
+              const regionName = `Region ${new Date().toLocaleDateString()}`;
+              await saveMapRegion({
+                id: Date.now().toString(),
+                name: regionName,
+                bounds,
+                center: { latitude: currentRegion.latitude, longitude: currentRegion.longitude },
+                threats: threatsInBounds,
+                downloadedAt: new Date().toISOString(),
+              });
+              Alert.alert('Success', `${threatsInBounds.length} threats saved offline.`);
+              // Navigate to Offline Maps tab to see refreshed list
+              router.push('/offline-maps');
+            } catch (e) {
+              Alert.alert('Error', 'Failed to download map area');
+            }
+          },
+        },
+      ]
+    );
   };
 
   if (loading) {
@@ -102,6 +133,7 @@ export default function MapScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <MapView
+
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         initialRegion={{
@@ -110,16 +142,13 @@ export default function MapScreen() {
           latitudeDelta: 0.1,
           longitudeDelta: 0.1,
         }}
+        onRegionChangeComplete={setCurrentRegion}
         showsUserLocation
         showsMyLocationButton>
-
         {threats.map((threat) => (
           <Marker
             key={threat.id}
-            coordinate={{
-              latitude: threat.lat,
-              longitude: threat.lng,
-            }}
+            coordinate={{ latitude: threat.lat, longitude: threat.lng }}
             pinColor={getMarkerColor(threat.threatLevel)}
             title={threat.type}
             description={`Level: ${threat.threatLevel} • ${getTimeAgo(threat.timestamp)}`}
@@ -128,6 +157,7 @@ export default function MapScreen() {
         ))}
       </MapView>
 
+      {/* Legend */}
       <View style={styles.legend}>
         <ThemedView style={styles.legendContainer}>
           <ThemedText style={styles.legendTitle}>🗺️ Threat Levels</ThemedText>
@@ -149,6 +179,11 @@ export default function MapScreen() {
           </View>
         </ThemedView>
       </View>
+
+      {/* Download button centered */}
+      <TouchableOpacity style={styles.downloadButton} onPress={downloadCurrentArea}>
+        <ThemedText style={styles.downloadButtonText}>📥 Download Area</ThemedText>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -181,7 +216,7 @@ const styles = StyleSheet.create({
   legendContainer: {
     padding: 16,
     borderRadius: 12,
-    backgroundColor: '#1E1E1E', // Darker background for contrast
+    backgroundColor: '#1E1E1E',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
@@ -194,7 +229,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 12,
-    color: '#FFFFFF', // White text
+    color: '#FFFFFF',
   },
   legendItem: {
     flexDirection: 'row',
@@ -211,7 +246,31 @@ const styles = StyleSheet.create({
   },
   legendText: {
     fontSize: 12,
-    color: '#E0E0E0', // Light gray text
+    color: '#E0E0E0',
     fontWeight: '500',
+  },
+  downloadButton: {
+    position: 'absolute',
+    top: 40,
+    left: '50%',
+    marginLeft: -100,
+    width: 200,
+    alignItems: 'center',
+    backgroundColor: '#4285F4',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    zIndex: 10,
+  },
+
+  downloadButtonText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });

@@ -20,6 +20,7 @@ const MAPPING = {
   'chevron.right': 'chevron-right',
   'map.fill': 'map',
   'message.fill': 'chat',
+  'arrow.down.circle.fill': 'download',
 } as IconMapping;
 
 /**
