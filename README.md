@@ -1,232 +1,241 @@
-# BeaconMaps Mobile App 🛡️
+# CIVshield
 
-A mobile security and safety application built with React Native (Expo) that provides real-time safety assistance, danger zone mapping, and AI-powered safety guidance using Google Gemini.
+**A mobile safety application built in 24 hours for civilians in conflict zones**
 
-## 📱 Project Overview
+CIVshield is a React Native mobile app that provides real-time threat mapping, AI-powered safety guidance, and offline capabilities to help civilians navigate dangerous situations.
 
-BeaconMaps is a comprehensive safety application designed to help civilians navigate dangerous situations by providing:
-- **AI-powered safety assistant** using Google Gemini
-- **Real-time danger zone mapping** with Google Maps
-- **Offline safety manual** for critical situations
-- **Multi-language support** with automatic translation
-- **Emergency scenario guidance** for various threat types
+## What We Built
 
-## 🏗️ Architecture
+In 24 hours, we created a fully functional mobile safety application with:
 
-### Frontend (Mobile App)
-- **Framework**: React Native with Expo
-- **Styling**: Tailwind CSS (via NativeWind or similar)
-- **Key Features**:
-  - Google Gemini safety assistant integration
-  - Offline safety manual
-  - Interactive map displaying danger zones
-  - Real-time risk dashboard
+- **Interactive Threat Map**: Real-time visualization of danger zones, safe areas, and critical infrastructure
+- **AI Safety Assistant**: Google Gemini-powered chat interface that provides contextual safety advice
+- **Offline Maps**: Download and view threat data for areas without internet connectivity
+- **Cloud Backend**: Express.js API deployed on Google Cloud Run with Firestore integration
+
+## Key Features
+
+### Real-Time Threat Mapping
+- Color-coded markers (High/Medium/Low/Safe) showing threat levels
+- Interactive map with user location tracking
+- Threat details including type, timestamp, and location
+- Tap markers to get context-aware safety advice
+
+###  AI Safety Assistant
+- Chat interface powered by Google Gemini
+- Contextual safety instructions based on threat scenarios
+- Attach threat data from map for personalized advice
+- Conversation history for follow-up questions
+
+### Offline Capabilities
+- Download map regions for offline use
+- View saved threat data without internet connection
+- Manage multiple downloaded regions
+- Essential for areas with unreliable connectivity
+
+##  Tech Stack
+
+### Frontend
+- **React Native** with **Expo** (~54.0.25)
+- **Expo Router** for file-based navigation
+- **react-native-maps** for map visualization
+- **AsyncStorage** for offline data persistence
+- **TypeScript** for type safety
 
 ### Backend
-- **Framework**: Express.js (Node.js)
-- **Deployment**: Google Cloud Run
-- **Functionality**:
-  - Receives and reviews user scenarios
-  - Provides safety suggestions using Gemini API
-  - Handles translation requests
-  - Manages safe zones and reports (optional Firestore integration)
+- **Node.js** with **Express.js**
+- **Google Gemini API** for AI safety advice
+- **Firebase Firestore** for threat data storage
+- **Google Cloud Run** for serverless deployment
 
-### Data Flow
+## Project Structure
 
 ```
-Mobile App (React Native)
-    |
-    | axios POST
-    v
-Express Backend (Node.js)
-    |
-    | API Request
-    v
-Gemini API
-    ├── Safety Instructions
-    └── Translation Services
-    |
-    | (optional)
-    v
-Firestore
-    ├── Safe zones
-    └── Reports
+react-native-node-project/
+├── frontend/              # React Native mobile app
+│   ├── app/              # Expo Router screens
+│   │   ├── (tabs)/       # Tab navigation
+│   │   │   ├── index.tsx      # Map screen
+│   │   │   ├── explore.tsx    # Safety assistant
+│   │   │   └── offline-maps.tsx  # Offline maps list
+│   │   └── offline-map-viewer.tsx
+│   ├── components/       # Reusable components
+│   ├── services/         # API and storage services
+│   └── hooks/            # Custom React hooks
+│
+└── backend/              # Express.js API server
+    ├── index.js          # Main server file
+    ├── threats.json      # Seed data
+    └── Dockerfile        # Container config
 ```
 
-### External Services
-- **Google Maps JS API**: Frontend map visualization
-- **Google Gemini API**: AI safety assistant and translation
-- **Google Cloud Run**: Backend hosting
-- **Firestore** (optional): Safe zones and reports storage
-
-## ✨ Core MVP Features
-
-### 1. Real-time Risk Dashboard (3 hours)
-- Display crisis data on an interactive map
-- Use static dataset or mock data for MVP
-- Google Maps API integration
-- Visual representation of danger zones
-
-### 2. Gemini "What Should I Do?" Safety Assistant (1-2 hours)
-- Single endpoint: send threat type → receive safety steps
-- Example prompt: *"Gemini, provide step-by-step safety instructions for civilians in a warzone when they hear explosions."*
-- High-impact, easy-to-implement feature
-
-### 3. War Scenario Action Generator + Safety UI (2 hours)
-- Chat-like interface or quick-select buttons for common scenarios:
-  - "Airstrike nearby"
-  - "Gunfire heard"
-  - "Roadblock reported"
-- Gemini returns contextual safety actions
-
-### 4. Multi-language Auto-translation (30 minutes)
-- Leverage Gemini's built-in translation capabilities
-- ~20 lines of code integration
-- Automatic language detection and translation
-
-### 5. GCP Deployment (2-3 hours)
-- Cloud Run hosting for backend
-- Firebase/Firestore for shelter locations and reports
-- Production-ready deployment setup
-
-**Total MVP Development Time: ~24 hours**
-
-## 🚀 Getting Started
+##  Quick Start
 
 ### Prerequisites
-- Node.js (v18 or higher)
+- Node.js (v18+)
 - npm or yarn
-- Expo CLI
+- Expo CLI (`npm install -g expo-cli`)
 - Google Cloud Platform account (for Gemini API and Cloud Run)
 - Google Maps API key
 
-### Installation
+### Frontend Setup
 
-1. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-2. **Start the development server**
-   ```bash
-   npx expo start
-   ```
-
-3. **Run on your preferred platform**
-   ```bash
-   # iOS
-   npm run ios
-   
-   # Android
-   npm run android
-   
-   # Web
-   npm run web
-   ```
-
-### Environment Setup
-
-Create a `.env` file in the root directory:
+```bash
+cd frontend
+npm install
+npx expo start
 ```
-GOOGLE_MAPS_API_KEY=your_maps_api_key
+
+Then press:
+- `i` for iOS simulator
+- `a` for Android emulator
+- `w` for web browser
+
+### Backend Setup
+
+```bash
+cd backend
+npm install
+```
+
+Create a `.env` file:
+```
 GEMINI_API_KEY=your_gemini_api_key
-BACKEND_URL=your_backend_url
+PORT=8080
 ```
 
-## 📁 Project Structure
-
-```
-civshield-mobile/
-├── app/                    # Expo Router pages
-│   ├── (tabs)/            # Tab navigation screens
-│   │   ├── index.tsx      # Home screen
-│   │   └── explore.tsx    # Explore/Safety features
-│   ├── _layout.tsx        # Root layout
-│   └── modal.tsx          # Modal screens
-├── components/            # Reusable components
-│   ├── ui/               # UI components
-│   └── ...               # Other components
-├── hooks/                # Custom React hooks
-├── constants/            # App constants and themes
-└── assets/              # Images and static assets
+Start the server:
+```bash
+npm start
 ```
 
-## 🔧 Development
+### Environment Variables
 
-### Key Technologies
-- **React Native**: 0.81.5
-- **Expo**: ~54.0.25
-- **Expo Router**: ~6.0.15 (file-based routing)
-- **React**: 19.1.0
-- **TypeScript**: ~5.9.2
-
-### Available Scripts
-- `npm start` - Start Expo development server
-- `npm run ios` - Run on iOS simulator
-- `npm run android` - Run on Android emulator
-- `npm run web` - Run on web browser
-- `npm run lint` - Run ESLint
-
-## 🌐 API Integration
-
-### Gemini API Usage
-The app uses Google Gemini API for:
-- **Safety Instructions**: Context-aware safety guidance based on user scenarios
-- **Translation**: Multi-language support for global accessibility
-
-Example integration:
-```typescript
-// Send user scenario to backend
-const response = await axios.post(`${BACKEND_URL}/safety-assistant`, {
-  scenario: "Airstrike nearby",
-  language: "en"
-});
-
-// Backend processes with Gemini API
-// Returns step-by-step safety instructions
+**Frontend** (`frontend/.env`):
+```
+EXPO_PUBLIC_GOOGLE_MAPS_API_KEY=your_maps_api_key
+EXPO_PUBLIC_BACKEND_URL=your_backend_url
 ```
 
-## 🗺️ Map Integration
+**Backend** (`backend/.env`):
+```
+GEMINI_API_KEY=your_gemini_api_key
+PORT=8080
+```
 
-Google Maps JS API is used to:
-- Display real-time danger zones
-- Show safe zones and shelters
-- Provide location-based safety information
-- Visualize risk areas on interactive map
+##  Screenshots & Features
 
-## 📝 Features Roadmap
+### Map View
+- Interactive map with threat markers
+- Color-coded threat levels
+- Download area button for offline access
+- Threat legend for quick reference
 
-### MVP (Current)
-- ✅ Basic UI with BeaconMaps branding
-- ⏳ Real-time risk dashboard
-- ⏳ Gemini safety assistant
-- ⏳ Scenario action generator
-- ⏳ Multi-language translation
-- ⏳ GCP deployment
+### Safety Assistant
+- Chat interface with AI-powered responses
+- Attach threat context from map
+- New conversation button
+- Real-time safety guidance
 
-### Future Enhancements
-- Offline mode with cached safety manual
+### Offline Maps
+- List of downloaded regions
+- View saved threats offline
+- Delete unwanted regions
+- Download date and threat count
+
+## API Endpoints
+
+### `GET /threats`
+Returns all threat data from Firestore.
+
+**Response:**
+```json
+[
+  {
+    "id": 1,
+    "lat": 31.524,
+    "lng": 34.452,
+    "threatLevel": "high",
+    "type": "Airstrike reported",
+    "timestamp": "2025-11-23T01:50:00.000Z"
+  }
+]
+```
+
+### `POST /advise`
+Get AI-powered safety advice from Gemini.
+
+**Request:**
+```json
+{
+  "message": "I hear explosions nearby. What should I do?",
+  "history": [
+    { "role": "user", "content": "Previous message" },
+    { "role": "assistant", "content": "Previous response" }
+  ]
+}
+```
+
+**Response:**
+```json
+{
+  "advice": "1. Immediately seek cover in a basement or interior room...\n2. Stay away from windows..."
+}
+```
+
+## Deployment
+
+### Backend (Google Cloud Run)
+
+1. Build Docker image:
+```bash
+cd backend
+gcloud builds submit --tag gcr.io/PROJECT_ID/civshield-backend
+```
+
+2. Deploy to Cloud Run:
+```bash
+gcloud run deploy civshield-backend \
+  --image gcr.io/PROJECT_ID/civshield-backend \
+  --platform managed \
+  --region us-central1
+```
+
+### Frontend (Expo)
+
+Build for production:
+```bash
+cd frontend
+eas build --platform android
+eas build --platform ios
+```
+
+## Hackathon Highlights
+
+- **Real-time threat visualization** with interactive maps
+- **AI integration** with Google Gemini for contextual safety advice
+- **Offline functionality** for areas with poor connectivity
+- **Cloud deployment** on Google Cloud Run
+- **Full-stack implementation** in 24 hours
+- **Production-ready** architecture with TypeScript
+
+##  Future Enhancements
+
 - Push notifications for nearby threats
 - Community reporting system
-- Emergency contact integration
+- Multi-language support with auto-translation
 - Historical threat data visualization
+- Emergency contact integration
+- Route planning to avoid danger zones
 
-## 🤝 Contributing
+##  License
 
-This is a private project. For questions or contributions, please contact the development team.
+Built for hackathon purposes. All rights reserved.
 
-## 📄 License
+##  Team
 
-Private project - All rights reserved
-
-## 🔗 Resources
-
-- [Expo Documentation](https://docs.expo.dev/)
-- [React Native Documentation](https://reactnative.dev/)
-- [Google Gemini API](https://ai.google.dev/)
-- [Google Maps API](https://developers.google.com/maps)
-- [Google Cloud Run](https://cloud.google.com/run)
+Built in 24 hours by the CIVshield team.
 
 ---
 
-**Built with ❤️ for civilian safety and protection**
+**Built for civilian safety and protection**

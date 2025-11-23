@@ -15,7 +15,8 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
@@ -30,6 +31,28 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="message.fill" color={color} />,
         }}
       />
+
+      {/* Added offline-maps, survival, and help tabs */}
+      <Tabs.Screen
+        name="offline-maps"
+        options={{
+          title: 'Offline',
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="arrow.down.circle.fill" color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="survival"
+        options={{
+          title: 'Survival Kit',
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="cross.case.fill" color={color} />
+          ),
+        }}
+      />
+
       <Tabs.Screen
         name="help"
         options={{
