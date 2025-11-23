@@ -30,6 +30,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="message.fill" color={color} />,
         }}
       />
+      <Tabs.Screen
+        name="survival"
+        options={{
+          title: 'Survival Kit',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="cross.case.fill" color={color} />,
+        }}
+      />
     </Tabs>
   );
 }

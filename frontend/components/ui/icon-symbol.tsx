@@ -20,6 +20,7 @@ const MAPPING = {
   'chevron.right': 'chevron-right',
   'map.fill': 'map',
   'message.fill': 'chat',
+  'cross.case.fill': 'medical-services',
 } as IconMapping;
 
 /**
