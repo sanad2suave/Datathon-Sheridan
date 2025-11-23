@@ -200,7 +200,7 @@ export default function SurvivalKitScreen() {
         <View style={styles.footer}>
           <ThemedView style={styles.footerCard}>
             <ThemedText style={styles.footerText}>
-              💡 This guide works offline — keep it for emergencies.
+              This guide works offline. Keep it for emergencies.
             </ThemedText>
           </ThemedView>
         </View>
