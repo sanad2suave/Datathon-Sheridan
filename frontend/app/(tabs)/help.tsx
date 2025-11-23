@@ -19,7 +19,7 @@ export default function HelpScreen() {
         
         {/* Header */}
         <View style={styles.header}>
-          <ThemedText style={styles.title}>{'\n'}BeaconMaps Guidebook</ThemedText>
+          <ThemedText style={styles.title}>{'\n'}CIVshield Guidebook</ThemedText>
           <ThemedText style={styles.subtitle}>
             Learn how to use all features of the app
           </ThemedText>
@@ -65,6 +65,18 @@ export default function HelpScreen() {
                   Use the legend in the bottom-right corner to understand threat levels
                 </ThemedText>
               </View>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>5</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  Tap on a threat marker's callout to get AI-powered safety advice for that specific threat
+                </ThemedText>
+              </View>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>6</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  Use the "Download Area" button at the top to save the current map region for offline use
+                </ThemedText>
+              </View>
             </View>
           </View>
 
@@ -87,6 +99,12 @@ export default function HelpScreen() {
                 <View style={[styles.colorDot, { backgroundColor: '#FFFF00' }]} />
                 <ThemedText style={styles.colorText}>
                   <ThemedText style={styles.colorLabel}>Yellow</ThemedText> - Low threat level
+                </ThemedText>
+              </View>
+              <View style={styles.colorItem}>
+                <View style={[styles.colorDot, { backgroundColor: '#00FF00' }]} />
+                <ThemedText style={styles.colorText}>
+                  <ThemedText style={styles.colorLabel}>Green</ThemedText> - Safe area
                 </ThemedText>
               </View>
             </View>
@@ -139,6 +157,12 @@ export default function HelpScreen() {
                   Tap "+ New Chat" to start a fresh conversation anytime
                 </ThemedText>
               </View>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>6</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  When viewing a threat on the map, tap its callout to automatically attach threat context to your question
+                </ThemedText>
+              </View>
             </View>
           </View>
 
@@ -164,17 +188,154 @@ export default function HelpScreen() {
           </View>
         </View>
 
-        {/* Survival Kit Use Section */}
+        {/* Offline Maps Feature Section */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <ThemedText style={styles.sectionTitle}>Survival Kit Use</ThemedText>
+            <ThemedText style={styles.sectionTitle}>Offline Maps</ThemedText>
           </View>
           
           <View style={styles.featureCard}>
             <ThemedText style={styles.featureTitle}>What it does:</ThemedText>
             <ThemedText style={styles.featureText}>
-              The Survival Kit page provides essential emergency instructions and safety guidance when you are in danger. It includes critical survival information, step-by-step emergency procedures, and actionable safety advice that you can access quickly during crisis situations. The survival kit is designed to help you make informed decisions and take appropriate actions when facing threats or dangerous circumstances.
+              The Offline Maps feature allows you to download and save map regions with threat data for use when you don't have internet connectivity. This is essential for areas with unreliable network coverage or when you need to conserve data.
             </ThemedText>
+          </View>
+
+          <View style={styles.featureCard}>
+            <ThemedText style={styles.featureTitle}>How to download a map:</ThemedText>
+            <View style={styles.stepList}>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>1</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  Go to the Map tab and navigate to the area you want to save
+                </ThemedText>
+              </View>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>2</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  Tap the "Download Area" button at the top center of the map
+                </ThemedText>
+              </View>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>3</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  Confirm the download - the app will save all threats visible in the current map view
+                </ThemedText>
+              </View>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>4</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  You'll be taken to the Offline Maps tab to see your downloaded region
+                </ThemedText>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.featureCard}>
+            <ThemedText style={styles.featureTitle}>How to use offline maps:</ThemedText>
+            <View style={styles.stepList}>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>1</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  Open the "Offline" tab to see all your downloaded map regions
+                </ThemedText>
+              </View>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>2</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  Tap on any downloaded region to view it on a map with all saved threats
+                </ThemedText>
+              </View>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>3</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  View threat markers and details even without internet connection
+                </ThemedText>
+              </View>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>4</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  Long-press a region card or tap the delete button to remove it from your saved maps
+                </ThemedText>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {/* Survival Kit Use Section */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <ThemedText style={styles.sectionTitle}>Survival Kit</ThemedText>
+          </View>
+          
+          <View style={styles.featureCard}>
+            <ThemedText style={styles.featureTitle}>What it does:</ThemedText>
+            <ThemedText style={styles.featureText}>
+              The Survival Kit is a comprehensive offline emergency field manual that provides essential survival instructions and safety guidance. It includes step-by-step procedures for fire-making, shelter building, water purification, first aid, navigation, and more. All content is available offline and works without internet connectivity.
+            </ThemedText>
+          </View>
+
+          <View style={styles.featureCard}>
+            <ThemedText style={styles.featureTitle}>How to use:</ThemedText>
+            <View style={styles.stepList}>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>1</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  Open the "Survival Kit" tab to access the emergency field manual
+                </ThemedText>
+              </View>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>2</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  Tap on any section (e.g., "Making Fire", "Building Shelter") to expand and read detailed instructions
+                </ThemedText>
+              </View>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>3</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  All information is available offline - no internet connection required
+                </ThemedText>
+              </View>
+              <View style={styles.stepItem}>
+                <ThemedText style={styles.stepNumber}>4</ThemedText>
+                <ThemedText style={styles.stepText}>
+                  Use this guide in emergency situations when you need quick access to survival procedures
+                </ThemedText>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.featureCard}>
+            <ThemedText style={styles.featureTitle}>Available sections:</ThemedText>
+            <View style={styles.exampleList}>
+              <ThemedText style={styles.exampleItem}>
+                • Making Fire (friction, flint and steel, battery methods)
+              </ThemedText>
+              <ThemedText style={styles.exampleItem}>
+                • Building Shelter (lean-to, debris hut)
+              </ThemedText>
+              <ThemedText style={styles.exampleItem}>
+                • Water Purification (boiling, SODIS, filtration)
+              </ThemedText>
+              <ThemedText style={styles.exampleItem}>
+                • Food Rationing & Finding Food
+              </ThemedText>
+              <ThemedText style={styles.exampleItem}>
+                • Wound Treatment & First Aid
+              </ThemedText>
+              <ThemedText style={styles.exampleItem}>
+                • Navigation Without Compass
+              </ThemedText>
+              <ThemedText style={styles.exampleItem}>
+                • Signaling for Help
+              </ThemedText>
+              <ThemedText style={styles.exampleItem}>
+                • Cold Weather & Heat Survival
+              </ThemedText>
+              <ThemedText style={styles.exampleItem}>
+                • Essential Survival Priorities (Rule of 3s)
+              </ThemedText>
+            </View>
           </View>
         </View>
 
@@ -213,7 +374,31 @@ export default function HelpScreen() {
               <View style={styles.tipItem}>
                 <ThemedText style={styles.tipBullet}>•</ThemedText>
                 <ThemedText style={styles.tipText}>
-                  The Safety Assistant works best with internet connection, but this guide is always available
+                  The Safety Assistant works best with internet connection, but this guide is always available offline
+                </ThemedText>
+              </View>
+              <View style={styles.tipItem}>
+                <ThemedText style={styles.tipBullet}>•</ThemedText>
+                <ThemedText style={styles.tipText}>
+                  Download map areas before traveling to areas with poor connectivity
+                </ThemedText>
+              </View>
+              <View style={styles.tipItem}>
+                <ThemedText style={styles.tipBullet}>•</ThemedText>
+                <ThemedText style={styles.tipText}>
+                  Attach threat context from the map when asking the Safety Assistant for more personalized advice
+                </ThemedText>
+              </View>
+              <View style={styles.tipItem}>
+                <ThemedText style={styles.tipBullet}>•</ThemedText>
+                <ThemedText style={styles.tipText}>
+                  The Survival Kit is always available offline - bookmark it for emergencies
+                </ThemedText>
+              </View>
+              <View style={styles.tipItem}>
+                <ThemedText style={styles.tipBullet}>•</ThemedText>
+                <ThemedText style={styles.tipText}>
+                  Regularly update your downloaded maps to ensure you have the latest threat information
                 </ThemedText>
               </View>
             </View>
@@ -223,10 +408,7 @@ export default function HelpScreen() {
         {/* Footer */}
         <View style={styles.footer}>
           <ThemedText style={styles.footerText}>
-            Stay safe with BeaconMaps
-          </ThemedText>
-          <ThemedText style={styles.footerSubtext}>
-            This guide is available offline for your safety
+            Stay safe with CIVshield
           </ThemedText>
         </View>
       </ScrollView>

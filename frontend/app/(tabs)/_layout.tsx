@@ -32,7 +32,6 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Added offline-maps, survival, and help tabs */}
       <Tabs.Screen
         name="offline-maps"
         options={{

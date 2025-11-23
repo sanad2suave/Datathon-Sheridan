@@ -1,4 +1,4 @@
-# CIVshield
+# CIVshield 🛡️
 
 **A mobile safety application built in 24 hours for civilians in conflict zones**
 
@@ -21,7 +21,7 @@ In 24 hours, we created a fully functional mobile safety application with:
 - Threat details including type, timestamp, and location
 - Tap markers to get context-aware safety advice
 
-###  AI Safety Assistant
+### AI Safety Assistant
 - Chat interface powered by Google Gemini
 - Contextual safety instructions based on threat scenarios
 - Attach threat data from map for personalized advice
@@ -33,7 +33,7 @@ In 24 hours, we created a fully functional mobile safety application with:
 - Manage multiple downloaded regions
 - Essential for areas with unreliable connectivity
 
-##  Tech Stack
+## Tech Stack
 
 ### Frontend
 - **React Native** with **Expo** (~54.0.25)
@@ -69,7 +69,7 @@ react-native-node-project/
     └── Dockerfile        # Container config
 ```
 
-##  Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js (v18+)
@@ -123,7 +123,7 @@ GEMINI_API_KEY=your_gemini_api_key
 PORT=8080
 ```
 
-##  Screenshots & Features
+## Screenshots & Features
 
 ### Map View
 - Interactive map with threat markers
@@ -212,14 +212,14 @@ eas build --platform ios
 
 ## Hackathon Highlights
 
-- **Real-time threat visualization** with interactive maps
-- **AI integration** with Google Gemini for contextual safety advice
-- **Offline functionality** for areas with poor connectivity
-- **Cloud deployment** on Google Cloud Run
-- **Full-stack implementation** in 24 hours
-- **Production-ready** architecture with TypeScript
+-  **Real-time threat visualization** with interactive maps
+-  **AI integration** with Google Gemini for contextual safety advice
+-  **Offline functionality** for areas with poor connectivity
+-  **Cloud deployment** on Google Cloud Run
+-  **Full-stack implementation** in 24 hours
+-  **Production-ready** architecture with TypeScript
 
-##  Future Enhancements
+## Future Enhancements
 
 - Push notifications for nearby threats
 - Community reporting system
@@ -228,13 +228,18 @@ eas build --platform ios
 - Emergency contact integration
 - Route planning to avoid danger zones
 
-##  License
+## License
 
 Built for hackathon purposes. All rights reserved.
 
-##  Team
+## Team
 
-Built in 24 hours by the CIVshield team.
+Built in 24 hours by:
+Alexander Williamson
+Sanad Mustafa
+Shayan Khattak
+Alexander Spreer-Pimenta
+Jahangir Khan
 
 ---
 
