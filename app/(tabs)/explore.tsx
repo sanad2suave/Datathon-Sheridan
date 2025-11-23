@@ -1,97 +1,119 @@
-import { StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { KeyboardAvoidingView, Platform, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
-import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { IconSymbol } from '@/components/ui/icon-symbol';
+import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useThemeColor } from '@/hooks/use-theme-color';
 
 export default function GeminiChatScreen() {
+  const [inputText, setInputText] = useState('');
+  const backgroundColor = useThemeColor({}, 'background');
+  const colorScheme = useColorScheme();
+  const textColor = useThemeColor({}, 'text');
+  const isDark = colorScheme === 'dark';
+
+  const handleSend = () => {
+    if (inputText.trim()) {
+      // TODO: Send to backend when API is ready
+      console.log('Sending:', inputText);
+      setInputText('');
+    }
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#4285F4', dark: '#1A237E' }}
-      headerImage={
-        <IconSymbol
-          size={200}
-          color="#4A90E2"
-          name="message.fill"
-          style={styles.headerIcon}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">🤖 Gemini AI Survivor Chat</ThemedText>
+    <KeyboardAvoidingView 
+      style={[styles.container, { backgroundColor }]}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}>
+      <ThemedView style={styles.content}>
+        {/* Empty space for future messages */}
       </ThemedView>
       
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">AI-Powered Safety Assistant</ThemedText>
-        <ThemedText>
-          Get instant, step-by-step safety instructions for any emergency scenario using Google Gemini AI.
-        </ThemedText>
+      <ThemedView style={styles.inputContainer}>
+        <View style={[
+          styles.inputWrapper,
+          isDark ? styles.inputWrapperDark : styles.inputWrapperLight
+        ]}>
+          <TextInput
+            style={[styles.textInput, { color: textColor }]}
+            placeholder="Enter a prompt..."
+            placeholderTextColor={isDark ? '#9BA1A6' : '#687076'}
+            value={inputText}
+            onChangeText={setInputText}
+            multiline
+            maxLength={2000}
+          />
+          <TouchableOpacity
+            style={[
+              styles.sendButton,
+              inputText.trim() ? styles.sendButtonActive : styles.sendButtonInactive
+            ]}
+            onPress={handleSend}
+            disabled={!inputText.trim()}>
+            <ThemedText style={styles.sendButtonText}>→</ThemedText>
+          </TouchableOpacity>
+        </View>
       </ThemedView>
-
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">🚨 Quick Scenario Selection</ThemedText>
-        <ThemedText>
-          • Airstrike nearby{'\n'}
-          • Gunfire heard{'\n'}
-          • Roadblock reported{'\n'}
-          • Explosion nearby
-        </ThemedText>
-      </ThemedView>
-
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">💡 How It Works</ThemedText>
-        <ThemedText>
-          Select a scenario and receive real-time safety instructions tailored to your situation. 
-          The AI assistant provides step-by-step guidance to help you stay safe.
-        </ThemedText>
-      </ThemedView>
-
-      <ThemedView style={styles.chatPlaceholder}>
-        <ThemedText style={styles.placeholderText}>
-          💬 Chat interface will appear here
-        </ThemedText>
-        <ThemedText style={styles.placeholderSubtext}>
-          Backend integration with Gemini API coming soon
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+  },
+  content: {
+    flex: 1,
+  },
+  inputContainer: {
+    padding: 16,
+    paddingBottom: Platform.OS === 'ios' ? 34 : 16,
+    borderTopWidth: 1,
+    borderTopColor: '#E0E0E0',
+  },
+  inputWrapper: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: 16,
+    alignItems: 'flex-end',
+    borderRadius: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    minHeight: 48,
+    maxHeight: 120,
+    borderWidth: 1,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 24,
+  inputWrapperLight: {
+    backgroundColor: '#F5F5F5',
+    borderColor: '#E0E0E0',
   },
-  headerIcon: {
-    bottom: -50,
-    left: -50,
-    position: 'absolute',
-    opacity: 0.3,
+  inputWrapperDark: {
+    backgroundColor: '#2C2C2E',
+    borderColor: '#3A3A3C',
   },
-  chatPlaceholder: {
-    height: 300,
-    borderRadius: 12,
-    backgroundColor: '#E8F4F8',
+  textInput: {
+    flex: 1,
+    fontSize: 16,
+    paddingVertical: 8,
+    paddingRight: 8,
+    maxHeight: 104,
+  },
+  sendButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 16,
-    borderWidth: 2,
-    borderColor: '#4285F4',
-    borderStyle: 'dashed',
+    marginLeft: 8,
   },
-  placeholderText: {
-    fontSize: 24,
-    marginBottom: 8,
+  sendButtonActive: {
+    backgroundColor: '#4285F4',
   },
-  placeholderSubtext: {
-    fontSize: 14,
-    opacity: 0.7,
+  sendButtonInactive: {
+    backgroundColor: '#C0C0C0',
+  },
+  sendButtonText: {
+    color: '#FFFFFF',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
