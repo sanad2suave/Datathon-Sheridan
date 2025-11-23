@@ -51,6 +51,8 @@ export default function MapScreen() {
         return '#FFA500'; // Orange
       case 'low':
         return '#FFFF00'; // Yellow
+      case 'safe':
+        return '#00FF00'; // Green
       default:
         return '#808080'; // Gray
     }
@@ -140,6 +142,10 @@ export default function MapScreen() {
           <View style={styles.legendItem}>
             <View style={[styles.legendDot, { backgroundColor: '#FFFF00' }]} />
             <ThemedText style={styles.legendText}>Low</ThemedText>
+          </View>
+          <View style={styles.legendItem}>
+            <View style={[styles.legendDot, { backgroundColor: '#00FF00' }]} />
+            <ThemedText style={styles.legendText}>Safe</ThemedText>
           </View>
         </ThemedView>
       </View>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -17,6 +17,7 @@ export default function GeminiChatScreen() {
   const [attachedThreat, setAttachedThreat] = useState<Threat | null>(null);
 
   const params = useLocalSearchParams();
+  const router = useRouter();
   const backgroundColor = useThemeColor({}, 'background');
   const colorScheme = useColorScheme();
   const textColor = useThemeColor({}, 'text');
@@ -33,6 +34,11 @@ export default function GeminiChatScreen() {
     }
   }, [params.threat]);
 
+  const clearAttachedThreat = () => {
+    setAttachedThreat(null);
+    router.setParams({ threat: null });
+  };
+
   const handleSend = async () => {
     if (inputText.trim()) {
       let messageToSend = inputText.trim();
@@ -42,12 +48,9 @@ export default function GeminiChatScreen() {
       }
 
       setInputText(''); // Clear input immediately
-      setAttachedThreat(null); // Clear attached threat after sending
+      clearAttachedThreat(); // Clear attached threat and params after sending
 
       // Add user message to conversation
-      // Display the original input text to the user, but send the context-enhanced message to the API? 
-      // Or just show the context in the chat? The requirement says "includes the threat in whatever message they send".
-      // I'll append it to the message content for simplicity and clarity in the chat history.
       const userMessage: Message = { role: 'user', content: messageToSend };
       setMessages(prev => [...prev, userMessage]);
 
@@ -72,7 +75,7 @@ export default function GeminiChatScreen() {
   const handleNewConversation = () => {
     setMessages([]);
     setError(null);
-    setAttachedThreat(null);
+    clearAttachedThreat();
   };
 
   return (
@@ -142,7 +145,7 @@ export default function GeminiChatScreen() {
                 <ThemedText style={styles.attachedThreatTitle}>Attached Threat: {attachedThreat.type}</ThemedText>
                 <ThemedText style={styles.attachedThreatSubtitle}>Level: {attachedThreat.threatLevel}</ThemedText>
               </View>
-              <TouchableOpacity onPress={() => setAttachedThreat(null)} style={styles.removeThreatButton}>
+              <TouchableOpacity onPress={clearAttachedThreat} style={styles.removeThreatButton}>
                 <ThemedText style={styles.removeThreatText}>✕</ThemedText>
               </TouchableOpacity>
             </View>
