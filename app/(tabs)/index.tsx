@@ -1,72 +1,49 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { IconSymbol } from '@/components/ui/icon-symbol';
 
-export default function HomeScreen() {
+export default function MapScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#1E3A5F', dark: '#0F1F2E' }}
       headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+        <IconSymbol
+          size={200}
+          color="#4A90E2"
+          name="map.fill"
+          style={styles.headerIcon}
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">CIVshield App</ThemedText>
-        <HelloWave />
+        <ThemedText type="title">🗺️ Danger Zone Map</ThemedText>
       </ThemedView>
       
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">🛡️ Your Security Companion</ThemedText>
+        <ThemedText type="subtitle">Real-time Risk Dashboard</ThemedText>
         <ThemedText>
-          Welcome to <ThemedText type="defaultSemiBold">CIVshield</ThemedText>, your trusted mobile application for 
-          security and protection. Stay connected and stay safe.
+          View danger zones, safe areas, and real-time threat information on an interactive map.
         </ThemedText>
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">🔐 Key Features</ThemedText>
+        <ThemedText type="subtitle">📍 Map Features</ThemedText>
         <ThemedText>
-          • Real-time security monitoring{'\n'}
-          • Emergency response tools{'\n'}
-          • Community safety network{'\n'}
-          • Quick access to help resources
+          • Display danger zones in real-time{'\n'}
+          • Show safe zones and shelters{'\n'}
+          • Location-based safety information{'\n'}
+          • Interactive Google Maps integration
         </ThemedText>
       </ThemedView>
 
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">📱 Getting Started</ThemedText>
-        <ThemedText>
-          Explore the app using the tabs below. Navigate through different sections 
-          to discover all the features CIVshield has to offer.
+      <ThemedView style={styles.mapPlaceholder}>
+        <ThemedText style={styles.placeholderText}>
+          🗺️ Map will be displayed here
         </ThemedText>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle" style={styles.linkText}>Open Settings</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Settings" icon="cube" onPress={() => alert('Settings opened')} />
-            <Link.MenuAction
-              title="Share App"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-          </Link.Menu>
-        </Link>
-      </ThemedView>
-
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">⚡ Quick Actions</ThemedText>
-        <ThemedText>
-          Access important features quickly from the Explore tab. Stay informed and 
-          connected with your community.
+        <ThemedText style={styles.placeholderSubtext}>
+          Google Maps integration coming soon
         </ThemedText>
       </ThemedView>
     </ParallaxScrollView>
@@ -84,14 +61,29 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 24,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+  headerIcon: {
+    bottom: -50,
+    left: -50,
     position: 'absolute',
+    opacity: 0.3,
   },
-  linkText: {
-    marginTop: 8,
+  mapPlaceholder: {
+    height: 300,
+    borderRadius: 12,
+    backgroundColor: '#E8F4F8',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 16,
+    borderWidth: 2,
+    borderColor: '#4A90E2',
+    borderStyle: 'dashed',
+  },
+  placeholderText: {
+    fontSize: 24,
+    marginBottom: 8,
+  },
+  placeholderSubtext: {
+    fontSize: 14,
+    opacity: 0.7,
   },
 });
