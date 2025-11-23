@@ -19,7 +19,7 @@ export default function HelpScreen() {
         
         {/* Header */}
         <View style={styles.header}>
-          <ThemedText style={styles.title}>{'\n'}CIVshield Guidebook</ThemedText>
+          <ThemedText style={styles.title}>{'\n'}BeaconMaps Guidebook</ThemedText>
           <ThemedText style={styles.subtitle}>
             Learn how to use all features of the app
           </ThemedText>
@@ -212,7 +212,7 @@ export default function HelpScreen() {
         {/* Footer */}
         <View style={styles.footer}>
           <ThemedText style={styles.footerText}>
-            Stay safe with CIVshield
+            Stay safe with BeaconMaps
           </ThemedText>
           <ThemedText style={styles.footerSubtext}>
             This guide is available offline for your safety

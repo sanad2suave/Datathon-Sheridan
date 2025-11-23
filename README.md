@@ -1,10 +1,10 @@
-# CIVshield Mobile App 🛡️
+# BeaconMaps Mobile App 🛡️
 
 A mobile security and safety application built with React Native (Expo) that provides real-time safety assistance, danger zone mapping, and AI-powered safety guidance using Google Gemini.
 
 ## 📱 Project Overview
 
-CIVshield is a comprehensive safety application designed to help civilians navigate dangerous situations by providing:
+BeaconMaps is a comprehensive safety application designed to help civilians navigate dangerous situations by providing:
 - **AI-powered safety assistant** using Google Gemini
 - **Real-time danger zone mapping** with Google Maps
 - **Offline safety manual** for critical situations
@@ -197,7 +197,7 @@ Google Maps JS API is used to:
 ## 📝 Features Roadmap
 
 ### MVP (Current)
-- ✅ Basic UI with CivShield branding
+- ✅ Basic UI with BeaconMaps branding
 - ⏳ Real-time risk dashboard
 - ⏳ Gemini safety assistant
 - ⏳ Scenario action generator
