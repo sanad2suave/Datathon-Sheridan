@@ -1,0 +1,11 @@
+node_modules
+.env
+Dockerfile
+.dockerignore
+.git
+.gitignore
+npm-debug.log
+*.log
+node
+list_models.js
+seed_firestore.js

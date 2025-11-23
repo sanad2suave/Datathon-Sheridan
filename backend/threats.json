@@ -1,0 +1,122 @@
+[
+    {
+        "id": 1,
+        "lat": 31.524,
+        "lng": 34.452,
+        "threatLevel": "high",
+        "type": "Airstrike reported",
+        "timestamp": "2025-11-23T01:50:00.000Z"
+    },
+    {
+        "id": 2,
+        "lat": 31.530,
+        "lng": 34.460,
+        "threatLevel": "medium",
+        "type": "Gunfire detected",
+        "timestamp": "2025-11-23T01:30:00.000Z"
+    },
+    {
+        "id": 3,
+        "lat": 31.515,
+        "lng": 34.445,
+        "threatLevel": "low",
+        "type": "Roadblock detected",
+        "timestamp": "2025-11-23T00:15:00.000Z"
+    },
+    {
+        "id": 4,
+        "lat": 31.540,
+        "lng": 34.470,
+        "threatLevel": "high",
+        "type": "Building collapse",
+        "timestamp": "2025-11-22T22:00:00.000Z"
+    },
+    {
+        "id": 5,
+        "lat": 31.510,
+        "lng": 34.430,
+        "threatLevel": "medium",
+        "type": "Unexploded ordnance",
+        "timestamp": "2025-11-22T18:30:00.000Z"
+    },
+    {
+        "id": 6,
+        "lat": 31.550,
+        "lng": 34.480,
+        "threatLevel": "low",
+        "type": "Medical aid station",
+        "timestamp": "2025-11-22T12:00:00.000Z"
+    },
+    {
+        "id": 7,
+        "lat": 31.505,
+        "lng": 34.420,
+        "threatLevel": "high",
+        "type": "Active shelling",
+        "timestamp": "2025-11-23T02:10:00.000Z"
+    },
+    {
+        "id": 8,
+        "lat": 31.535,
+        "lng": 34.455,
+        "threatLevel": "medium",
+        "type": "Checkpoint closed",
+        "timestamp": "2025-11-21T09:00:00.000Z"
+    },
+    {
+        "id": 9,
+        "lat": 31.520,
+        "lng": 34.440,
+        "threatLevel": "low",
+        "type": "Safe zone established",
+        "timestamp": "2025-11-20T15:00:00.000Z"
+    },
+    {
+        "id": 10,
+        "lat": 31.545,
+        "lng": 34.465,
+        "threatLevel": "high",
+        "type": "Sniper activity",
+        "timestamp": "2025-11-23T01:00:00.000Z"
+    },
+    {
+        "id": 11,
+        "lat": 31.528,
+        "lng": 34.448,
+        "threatLevel": "medium",
+        "type": "Fire reported",
+        "timestamp": "2025-11-22T20:45:00.000Z"
+    },
+    {
+        "id": 12,
+        "lat": 31.518,
+        "lng": 34.435,
+        "threatLevel": "low",
+        "type": "Water distribution point",
+        "timestamp": "2025-11-23T00:00:00.000Z"
+    },
+    {
+        "id": 13,
+        "lat": 31.555,
+        "lng": 34.485,
+        "threatLevel": "high",
+        "type": "Drone strike",
+        "timestamp": "2025-11-23T02:15:00.000Z"
+    },
+    {
+        "id": 14,
+        "lat": 31.500,
+        "lng": 34.415,
+        "threatLevel": "medium",
+        "type": "Crowd unrest",
+        "timestamp": "2025-11-22T16:20:00.000Z"
+    },
+    {
+        "id": 15,
+        "lat": 31.532,
+        "lng": 34.458,
+        "threatLevel": "low",
+        "type": "Road cleared",
+        "timestamp": "2025-11-21T11:30:00.000Z"
+    }
+]

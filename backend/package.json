@@ -1,0 +1,19 @@
+{
+    "name": "civshield-backend",
+    "version": "1.0.0",
+    "main": "index.js",
+    "type": "commonjs",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.6.1",
+        "express": "^4.21.2",
+        "firebase-admin": "^13.6.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.22"
+    }
+}
